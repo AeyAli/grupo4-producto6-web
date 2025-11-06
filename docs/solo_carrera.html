@@ -5,6 +5,31 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Entradas - Solo Carrera</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+
+    .resultado .resumen {
+      background: #f3f7ff;
+      border: 1px solid #d0d9ff;
+      padding: 1rem;
+      border-radius: 6px;
+      color: #04305a;
+      max-width: 700px;
+    }
+    .resultado .resumen h3 {
+      margin: 0 0 0.5rem 0;
+    }
+    .resultado .resumen ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 0.5rem 0;
+    }
+    .resultado .resumen li {
+      padding: 0.25rem 0;
+      border-bottom: 1px dashed rgba(0,0,0,0.05);
+    }
+    .resultado .resumen li strong { width: 110px; display: inline-block; }
+    .resultado .mensaje { margin: 0; font-weight: 600; color: #065f46; }
+  </style>
 </head>
 <body>
   <header class="site-header">
@@ -93,7 +118,6 @@
         </form>
 
         <section class="explain">
-          <h2>Cómo funciona el formulario</h2>
           <div id="resultado" class="resultado"></div>
         </section>
       </article>
@@ -113,5 +137,62 @@
   </footer>
 
   <script src="solo_carrera.js"></script>
+  <script>
+    // reemplazo visual del resumen para mostrarlo limpio
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('compraForm');
+      const resultado = document.getElementById('resultado');
+
+      if (!form || !resultado) return;
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const get = id => (document.getElementById(id) ? document.getElementById(id).value.trim() : '');
+
+        const data = {
+          dni: get('dni').toUpperCase(),
+          nombre: get('nombre'),
+          apellidos: get('apellidos'),
+          email: get('email'),
+          tipo: get('tipo'),
+          zona: get('zona'),
+          edad: get('edad') || 'N/A'
+        };
+
+        // si tu solo_carrera.js ya calcula precio, puedes quitar esta lógica y tomar el valor real
+        let precio = document.getElementById('precio') && document.getElementById('precio').value;
+        if (!precio) {
+          // ejemplo sencillo de cálculo por defecto
+          if (data.tipo === 'adulto') precio = data.zona === 'zona1' ? '120 €' : '100 €';
+          else precio = data.zona === 'zona1' ? '60 €' : '50 €';
+        }
+        data.precio = precio;
+
+        resultado.innerHTML = `
+          <div class="resumen" role="status" aria-live="polite">
+            <h3>Resumen de la compra</h3>
+            <ul>
+              <li><strong>DNI:</strong> ${escapeHtml(data.dni)}</li>
+              <li><strong>Nombre:</strong> ${escapeHtml(data.nombre)} ${escapeHtml(data.apellidos)}</li>
+              <li><strong>Email:</strong> ${escapeHtml(data.email)}</li>
+              <li><strong>Tipo:</strong> ${escapeHtml(capitalize(data.tipo))}</li>
+              <li><strong>Zona:</strong> ${escapeHtml(capitalize(data.zona))}</li>
+              <li><strong>Edad:</strong> ${escapeHtml(data.edad)}</li>
+              <li><strong>Precio:</strong> ${escapeHtml(data.precio)}</li>
+            </ul>
+            <p class="mensaje">Compra simulada correctamente. Se enviará confirmación (simulado).</p>
+          </div>
+        `;
+      });
+
+      function escapeHtml(str) {
+        return String(str || '').replace(/[&<>"']/g, function (s) {
+          return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[s];
+        });
+      }
+      function capitalize(s) { return (s || '').replace(/^\w/, c => c.toUpperCase()); }
+    });
+  </script>
 </body>
 </html>
