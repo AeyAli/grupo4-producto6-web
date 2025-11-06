@@ -88,3 +88,32 @@ footer, .site-footer {
 .resultados-sorteo .aciertos{margin-top:8px;font-weight:700;color:#1b263b}
 
 .legend{margin-top:12px;color:#556676;font-size:14px}
+
+/* Mantener tamaño estable del cuestionario antes y después de enviar */
+.ticket-form {
+  align-content: start;    /* mantiene el contenido en la parte superior del área del grid */
+  min-height: 320px;       /* altura mínima del formulario para evitar cambios al mostrar resultado */
+}
+
+/* Reserva de espacio para el bloque de resultado */
+.explain {
+  min-height: 140px;
+}
+
+/* El propio contenedor de resultado ocupa siempre espacio incluso vacío */
+.resultado {
+  min-height: 140px;
+  transition: min-height 0.15s ease, opacity 0.12s ease;
+}
+
+/* Asegurar que el resumen no cambie el ancho del formulario */
+.resultado .resumen {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Adaptaciones móviles (evitar alturas fijas pequeñas pantallas) */
+@media (max-width: 900px) {
+  .ticket-form { min-height: auto; }
+  .explain, .resultado { min-height: 120px; }
+}
