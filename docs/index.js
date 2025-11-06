@@ -75,3 +75,50 @@ document.addEventListener("DOMContentLoaded", () => {
   show(0);
   resetTimer();
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const carousels = document.querySelectorAll('.carousel');
+  const DEFAULT_INTERVAL = 4000; // ms
+
+  carousels.forEach(carousel => {
+    const slides = Array.from(carousel.querySelectorAll('.slide'));
+    if (!slides.length) return;
+
+    let current = 0;
+    let timer = null;
+    const interval = carousel.dataset.interval ? Number(carousel.dataset.interval) : DEFAULT_INTERVAL;
+
+    function show(index) {
+      slides.forEach((s, i) => {
+        const isVisible = i === index;
+        s.classList.toggle('visible', isVisible);
+        s.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
+      });
+    }
+
+    function start() {
+      stop();
+      timer = setInterval(() => {
+        current = (current + 1) % slides.length;
+        show(current);
+      }, interval);
+    }
+
+    function stop() {
+      if (timer) { clearInterval(timer); timer = null; }
+    }
+
+    // Inicializar
+    show(current);
+    start();
+
+    // Pausar en hover y focus (mejora accesibilidad)
+    carousel.addEventListener('mouseenter', stop);
+    carousel.addEventListener('mouseleave', start);
+    carousel.addEventListener('focusin', stop);
+    carousel.addEventListener('focusout', start);
+
+    // Si hay varias carousels, evita que el timer se duplique
+    // y permite configurar intervalo con data-attribute: <div class="carousel" data-interval="5000">
+  });
+});
