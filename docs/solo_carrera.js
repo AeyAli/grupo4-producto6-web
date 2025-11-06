@@ -1,49 +1,88 @@
 // Lógica del formulario en solo_carrera.html
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('compraForm');
+  const resultado = document.getElementById('resultado');
   const dni = document.getElementById('dni');
   const tipo = document.getElementById('tipo');
   const zona = document.getElementById('zona');
-  const edad = document.getElementById('edad');
-  const precio = document.getElementById('precio');
-  const form = document.getElementById('compraForm');
-  const resultado = document.getElementById('resultado');
+  const precioInput = document.getElementById('precio');
 
-  function calcPrecio(){
-    const tarifas = {
-      adulto: { zona1: 120, zona2: 90 },
-      infantil: { zona1: 60, zona2: 45 }
-    };
-    const t = tipo.value;
-    const z = zona.value;
-    let p = tarifas[t][z];
-    if (edad.value){
-      const e = Number(edad.value);
-      if (e < 12) p = Math.round(p * 0.6);
-      if (e >= 65) p = Math.round(p * 0.8);
-    }
-    precio.value = p + ' €';
-    return p;
+  if (!form) return;
+
+  // Normalizar DNI a mayúsculas mientras se escribe
+  if (dni) {
+    dni.addEventListener('input', () => {
+      dni.value = dni.value.toUpperCase();
+    });
   }
 
-  if (dni) dni.addEventListener('input', ()=> dni.value = dni.value.toUpperCase());
-  if (tipo) tipo.addEventListener('change', calcPrecio);
-  if (zona) zona.addEventListener('change', calcPrecio);
-  if (edad) edad.addEventListener('input', calcPrecio);
-  window.addEventListener('load', calcPrecio);
+  // Cálculo y actualización del precio visible
+  function calcularPrecio() {
+    const t = tipo ? tipo.value : 'adulto';
+    const z = zona ? zona.value : 'zona1';
+    let precio;
+    if (t === 'adulto') precio = z === 'zona1' ? 120 : 100;
+    else precio = z === 'zona1' ? 60 : 50;
+    return `${precio} €`;
+  }
 
-  if (form) form.addEventListener('submit', function(ev){
-    ev.preventDefault();
-    if (!form.checkValidity()) { form.reportValidity(); return; }
-    const resumen = {
-      dni: dni.value,
-      nombre: document.getElementById('nombre').value,
-      apellidos: document.getElementById('apellidos').value,
-      email: document.getElementById('email').value,
-      tipo: tipo.value,
-      zona: zona.value,
-      edad: edad.value,
-      precio: precio.value
-    };
-    resultado.innerHTML = '<pre>' + JSON.stringify(resumen, null, 2) + '</pre><p>Compra simulada correctamente. Se enviará confirmación (simulado).</p>';
-  });
+  function actualizarPrecioInput() {
+    if (precioInput) precioInput.value = calcularPrecio();
+  }
+
+  if (tipo) tipo.addEventListener('change', actualizarPrecioInput);
+  if (zona) zona.addEventListener('change', actualizarPrecioInput);
+
+  // Inicializar precio al cargar
+  actualizarPrecioInput();
+
+  // Manejo del envío del formulario (resumen)
+  if (form && resultado) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Validación nativa
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const get = id => (document.getElementById(id) ? document.getElementById(id).value.trim() : '');
+
+      const data = {
+        dni: get('dni').toUpperCase(),
+        nombre: get('nombre'),
+        apellidos: get('apellidos'),
+        email: get('email'),
+        tipo: get('tipo'),
+        zona: get('zona'),
+        edad: get('edad') || 'N/A',
+        precio: get('precio') || calcularPrecio()
+      };
+
+      resultado.innerHTML = `
+        <div class="resumen" role="status" aria-live="polite">
+          <h3>Resumen de la compra</h3>
+          <ul>
+            <li><strong>DNI:</strong> ${escapeHtml(data.dni)}</li>
+            <li><strong>Nombre:</strong> ${escapeHtml(data.nombre)} ${escapeHtml(data.apellidos)}</li>
+            <li><strong>Email:</strong> ${escapeHtml(data.email)}</li>
+            <li><strong>Tipo:</strong> ${escapeHtml(capitalize(data.tipo))}</li>
+            <li><strong>Zona:</strong> ${escapeHtml(capitalize(data.zona))}</li>
+            <li><strong>Edad:</strong> ${escapeHtml(data.edad)}</li>
+            <li><strong>Precio:</strong> ${escapeHtml(data.precio)}</li>
+          </ul>
+          <p class="mensaje">Compra simulada correctamente. Se enviará confirmación (simulado).</p>
+        </div>
+      `;
+    });
+  }
+
+  // Helpers
+  function escapeHtml(str) {
+    return String(str || '').replace(/[&<>"']/g, function (s) {
+      return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[s];
+    });
+  }
+  function capitalize(s) { return (s || '').replace(/^\w/, c => c.toUpperCase()); }
 });
