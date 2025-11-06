@@ -2,7 +2,7 @@
 #logoF1Footer{width: 100px; height: 100px;}
 .Redes{width: 30px; height: 20px;}
 #TextoIndex{text-align: justify;}
-#FotoIndex{width: 1070px; height: 258px;}
+#FotoIndex{width: 1070px; height: 258px; border-radius: 10px;}
 .FotosCarrusel{width: 262px; height: 100px;}
 #mapa{width: 1035px; height: 180px; }
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -173,4 +173,31 @@ footer, .site-footer {
 @media(max-width:900px){
   .links-interes{width:auto;padding:12px}
 }
+
+/* aplicar el mismo estilo visual a la descarga de la normativa */
+.normativa{
+  background:#fff;
+  border:1px solid #e6eef6;
+  padding:12px;
+  border-radius:10px;
+  box-shadow:0 8px 20px rgba(11,18,32,0.04);
+}
+.normativa a{
+  display:inline-block;
+  text-decoration:none;
+  color:#0b1220;
+  padding:8px 12px;
+  border-radius:8px;
+  transition:background .15s ease,transform .12s ease,box-shadow .12s ease,border-color .12s ease;
+  border:1px solid transparent;
+  background:linear-gradient(90deg,#ffffff,#fbfdff);
+  font-weight:600;
+}
+.normativa a:hover{
+  background:linear-gradient(90deg,#f7fbff,#eef6ff);
+  transform:translateY(-3px);
+  box-shadow:0 12px 28px rgba(11,18,32,0.06);
+  border-color:#dbeaf7;
+}
+.normativa p{font-size:12px;color:#666;margin-top:8px;}
 
