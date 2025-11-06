@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Entradas - Solo Carrera</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+ <a class="logo" href="index.html" aria-label="Inicio">
+
+        <img id="logoF1" src="Imagenes/Logo_transparent_result_padded_x3.png" alt="">
+        
+    </a>
+
+  <nav class="main-nav" aria-label="Menú principal">
+    <ul>
+      <li class="has-sub">
+        <a href="#">La carrera ▾</a>
+        <ul class="sub">
+          <li><a href="#">Circuito</a></li>
+          <li><a href="#">Escuderías</a></li>
+          <li><a href="#">Horarios</a></li>
+        </ul>
+      </li>
+      <li class="has-sub">
+        <a href="#">Bilbao ▾</a>
+        <ul class="sub">
+          <li><a href="#">Visítanos</a></li>
+          <li><a href="#">Gastronomía</a></li>
+          <li><a href="#">Alojamiento</a></li>
+        </ul>
+      </li>
+      <li class="has-sub">
+        <a href="#">Entradas ▾</a>
+        <ul class="sub">
+          <li><a href="solo_carrera.html">Solo Carrera</a></li>
+          <li><a href="#">Fin semana</a></li>
+          <li><a href="acceso.html">Acceso</a></li>
+        </ul>
+      </li>
+      <li><a href="sorteo.html">Sorteo Tres primeros pilotos</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+    </ul>
+  </nav>
+</header>
+
+  <main class="container">
+    <div class="content">
+      <article class="main-block">
+        <h1>Compra: Solo Carrera</h1>
+        <form id="compraForm" class="ticket-form">
+          <label>DNI
+            <input id="dni" name="dni" maxlength="9" required pattern="[0-9]{8}[A-Z]" placeholder="12345678A" />
+          </label>
+
+          <label>Nombre
+            <input id="nombre" name="nombre" required />
+          </label>
+
+          <label>Apellidos
+            <input id="apellidos" name="apellidos" required />
+          </label>
+
+          <label>Email
+            <input id="email" name="email" type="email" required />
+          </label>
+
+          <label>Tipo entrada
+            <select id="tipo" name="tipo">
+              <option value="adulto">Adulto</option>
+              <option value="infantil">Infantil</option>
+            </select>
+          </label>
+
+          <label>Zona
+            <select id="zona" name="zona">
+              <option value="zona1">Zona1</option>
+              <option value="zona2">Zona2</option>
+            </select>
+          </label>
+
+          <label>Edad
+            <input id="edad" name="edad" type="number" min="0" />
+          </label>
+
+          <label>Precio
+            <input id="precio" name="precio" disabled />
+          </label>
+
+          <button type="submit" id="comprar">Comprar Entrada</button>
+        </form>
+
+        <section class="explain">
+          <h2>Cómo funciona el formulario</h2>
+          <p>El campo DNI se convertirá a mayúsculas automáticamente. El precio se calcula según tipo y zona. Pulsa "Comprar Entrada" para simular la compra; se validarán los datos y se mostrará un resumen. Este ejemplo no realiza transacción real.</p>
+          <div id="resultado" class="resultado"></div>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-left">
+      <img id="logoF1Footer" src="Imagenes/Logo_transparent_result.png" alt="">
+      <p>Política de Cookies | Política de Privacidad</p>
+    </div>
+    <div class="socials">
+      <a href="https://www.facebook.com/Formula1/?locale=es_LA" aria-label="Facebook"><img class="Redes" src="Imagenes/png-transparent-facebook-logo-facebook-messenger-logo-social-media-icon-facebook-icon-blue-text-rectangle-thumbnail.png" alt=""></a>
+      <a href="https://x.com/F1?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" aria-label="Twitter"><img class="Redes" src="Imagenes/3c817a1285aecd16354408dc4b31d7c5.jpg" alt=""></a>
+      <a href="https://www.instagram.com/f1/" aria-label="Instagram"><img class="Redes" src="Imagenes/icono-logotipo-vector-instagram-logotipo-redes-sociales_901408-395.avif" alt=""></a>
+    </div>
+  </footer>
+
+  <script src="solo_carrera.js"></script>
+</body>
+</html>
