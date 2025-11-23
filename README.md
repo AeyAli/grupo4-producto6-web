@@ -1,2 +1,2 @@
-# grupo4-producto6-repositorio
-Infraestructura cloud y desarrollo colaborativo del portal web del evento "Fórmula 1". Despliegue en AWS y GitHub Pages con documentación en Markdown.
+# grupo4-producto6-web
+Despliegue de página formula1 en GitHub Pages.
